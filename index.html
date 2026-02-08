@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Agri Vehicle</title>
+<style>
+body{font-family:Arial;text-align:center;background:#e8f5e9;}
+button{width:120px;height:45px;font-size:16px;margin:5px;}
+.card{background:white;padding:10px;margin:10px;border-radius:10px;}
+</style>
+</head>
+<body>
+
+<h2>SMART AGRI VEHICLE</h2>
+
+<div class="card">
+<b>Soil:</b> <span id="soil">--</span><br>
+<b>Distance:</b> <span id="distance">--</span> cm
+</div>
+
+<div class="card">
+<button onclick="move('FORWARD')">Forward</button><br>
+<button onclick="move('LEFT')">Left</button>
+<button onclick="move('STOP')">Stop</button>
+<button onclick="move('RIGHT')">Right</button><br>
+<button onclick="move('BACKWARD')">Backward</button>
+</div>
+
+<div class="card">
+<button onclick="setWater('ON')">Water ON</button>
+<button onclick="setWater('OFF')">Water OFF</button><br><br>
+<button onclick="setSeed('ON')">Seed ON</button>
+<button onclick="setSeed('OFF')">Seed OFF</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB5CnZ3Eg5TLWN6YZpuQVl7fyDm2Vo4M00",
+  authDomain: "aaa-agri.firebaseapp.com",
+  databaseURL: "https://aaa-agri-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "aaa-agri",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+window.move = (cmd)=> set(ref(db,"control/move"),cmd);
+window.setWater = (v)=> set(ref(db,"control/water"),v);
+window.setSeed = (v)=> set(ref(db,"control/seed"),v);
+
+onValue(ref(db,"sensors"), snap=>{
+  const d = snap.val();
+  soil.innerText = d.soil;
+  distance.innerText = d.distance;
+});
+</script>
+
+</body>
+</html>
