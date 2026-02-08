@@ -434,17 +434,7 @@ footer {
           <div class="sensor-unit">Centimeters</div>
         </div>
         
-        <div class="sensor-box">
-          <h4><i class="fas fa-thermometer-half"></i> Temperature</h4>
-          <div class="sensor-value" id="temperature">--</div>
-          <div class="sensor-unit">°C</div>
-        </div>
-        
-        <div class="sensor-box">
-          <h4><i class="fas fa-sun"></i> Light Intensity</h4>
-          <div class="sensor-value" id="light">--</div>
-          <div class="sensor-unit">Lux</div>
-        </div>
+        <!-- Temperature and Light Intensity sensors have been removed -->
       </div>
     </div>
     
@@ -585,13 +575,6 @@ onValue(ref(db, "sensors"), (snapshot) => {
     // Update sensor displays
     document.getElementById("soil").innerText = data.soil_percent || "--";
     document.getElementById("distance").innerText = data.distance || "--";
-    
-    // Simulate additional sensor data if not present
-    document.getElementById("temperature").innerText = data.temperature || Math.floor(Math.random() * 10 + 20);
-    document.getElementById("light").innerText = data.light || Math.floor(Math.random() * 2000 + 1000);
-    
-    // Update ML prediction based on sensor data
-    updatePrediction(data);
     
     // Update last updated time
     const now = new Date();
