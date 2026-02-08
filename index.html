@@ -3,20 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Smart Agri Vehicle - AI-Powered Farm Management</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Vehicle Control Panel</title>
 <style>
 :root {
   --primary-green: #2e7d32;
   --light-green: #4caf50;
   --dark-green: #1b5e20;
-  --accent-blue: #1e88e5;
   --warning-red: #e53935;
   --neutral-gray: #757575;
-  --background: #f5f9f5;
   --card-bg: #ffffff;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -27,610 +23,424 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--background);
+  background: linear-gradient(135deg, #f5f9f5 0%, #e8f5e9 100%);
   color: #333;
   line-height: 1.6;
-  padding: 0;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Header */
-header {
-  background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
-  color: white;
-  padding: 25px 0;
-  border-radius: 0 0 20px 20px;
-  margin-bottom: 30px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-header p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  max-width: 700px;
+  width: 100%;
+  max-width: 420px;
   margin: 0 auto;
 }
 
-/* Main Layout */
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 25px;
-  margin-bottom: 30px;
-}
-
+/* Card Styling */
 .card {
   background: var(--card-bg);
   border-radius: 16px;
   padding: 25px;
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-top: 5px solid var(--primary-green);
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-.card-title {
+.title {
+  color: var(--dark-green);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  margin-bottom: 20px;
-  color: var(--dark-green);
-  font-size: 1.4rem;
 }
 
-.card-title i {
-  font-size: 1.6rem;
+.title i {
+  color: var(--primary-green);
+  font-size: 1.8rem;
 }
 
-/* Control Buttons */
+.subtitle {
+  color: var(--neutral-gray);
+  font-size: 0.95rem;
+}
+
+/* Control Grid - Compact Design */
 .control-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 12px;
-  margin-top: 15px;
+  margin-bottom: 20px;
 }
 
-.control-row {
+/* Center cell for STOP button */
+.center-cell {
+  grid-column: 2;
+  grid-row: 2;
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin: 10px 0;
+  align-items: center;
 }
 
-.btn {
-  padding: 14px 20px;
+/* Button Styling */
+.control-btn {
+  width: 100%;
+  height: 60px;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
+  padding: 8px;
 }
 
-.btn:active {
-  transform: scale(0.98);
+.control-btn:active {
+  transform: scale(0.97);
 }
 
-.btn-primary {
+/* Direction Buttons */
+.direction-btn {
   background: var(--light-green);
   color: white;
 }
 
-.btn-primary:hover {
+.direction-btn:hover {
   background: var(--primary-green);
 }
 
-.btn-danger {
+.direction-btn i {
+  font-size: 1.3rem;
+}
+
+/* Stop Button */
+.stop-btn {
   background: var(--warning-red);
   color: white;
-}
-
-.btn-danger:hover {
-  background: #c62828;
-}
-
-.btn-blue {
-  background: var(--accent-blue);
-  color: white;
-}
-
-.btn-blue:hover {
-  background: #1565c0;
-}
-
-.btn-gray {
-  background: var(--neutral-gray);
-  color: white;
-}
-
-.btn-gray:hover {
-  background: #616161;
-}
-
-.btn-large {
-  width: 100%;
-  padding: 16px;
-  font-size: 1.1rem;
-}
-
-/* Sensor Data */
-.sensor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.sensor-box {
-  background: #f1f8e9;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  border-left: 4px solid var(--light-green);
-}
-
-.sensor-value {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--primary-green);
-  margin: 10px 0;
-}
-
-.sensor-unit {
-  color: var(--neutral-gray);
-  font-size: 0.9rem;
-}
-
-/* Data Logger Section */
-.data-logger {
-  margin-top: 40px;
-}
-
-.logger-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.log-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.log-table th {
-  background: var(--primary-green);
-  color: white;
-  padding: 18px 15px;
-  text-align: left;
-}
-
-.log-table td {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-}
-
-.log-table tr:last-child td {
-  border-bottom: none;
-}
-
-.log-table tr:hover {
-  background: #f9fdf9;
-}
-
-.status-indicator {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  margin-right: 8px;
-}
-
-.status-active {
-  background: #4caf50;
-}
-
-.status-inactive {
-  background: #e53935;
-}
-
-/* ML Prediction Section */
-.prediction-card {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: white;
-  border-top-color: #2a5298;
-}
-
-.prediction-content {
+  font-size: 1rem;
+  font-weight: 700;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 3px 6px rgba(229, 57, 53, 0.3);
 }
 
-.prediction-value {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin: 20px 0;
-  color: #fff;
+.stop-btn:hover {
+  background: #c62828;
+  box-shadow: 0 5px 10px rgba(229, 57, 53, 0.4);
 }
 
-.prediction-label {
-  font-size: 1.1rem;
-  opacity: 0.9;
+.stop-btn i {
+  font-size: 1.6rem;
 }
 
-.prediction-footer {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  opacity: 0.8;
+/* Auto Mode Button */
+.auto-btn {
+  background: var(--neutral-gray);
+  color: white;
+  grid-column: 1 / -1;
+  height: 50px;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 5px;
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  margin-top: 40px;
-  padding: 20px;
+.auto-btn:hover {
+  background: #616161;
+}
+
+.auto-btn i {
+  font-size: 1.2rem;
+}
+
+/* Button Labels */
+.btn-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Status Indicator */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.85rem;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4caf50;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.status-text {
   color: var(--neutral-gray);
-  font-size: 0.9rem;
-  border-top: 1px solid #e0e0e0;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-  
-  .control-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  header h1 {
-    font-size: 2rem;
+/* Responsive Design */
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
   }
   
   .card {
     padding: 20px;
   }
+  
+  .control-btn {
+    height: 55px;
+  }
+  
+  .stop-btn {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .title {
+    font-size: 1.4rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation for button press */
+@keyframes buttonPress {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+.button-press {
+  animation: buttonPress 0.15s ease;
+}
+
+/* Compact info section */
+.info-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  font-size: 0.8rem;
+  color: var(--neutral-gray);
+  text-align: center;
+}
+
+.info-section p {
+  margin: 5px 0;
 }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
 <div class="container">
-  <header>
-    <h1><i class="fas fa-tractor"></i> Smart Agriculture Vehicle</h1>
-    <p>AI-Powered Farm Management System with Real-Time Monitoring & Predictive Analytics</p>
-  </header>
-  
-  <div class="dashboard">
-    <!-- Vehicle Control Card -->
-    <div class="card">
-      <div class="card-title">
+  <div class="card">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title">
         <i class="fas fa-tractor"></i>
-        <h3>Vehicle Control</h3>
-      </div>
-      <p>Manual control of the agricultural vehicle</p>
-      
-      <div class="control-grid">
-        <button class="btn btn-primary" onclick="move('FORWARD')">
-          <i class="fas fa-arrow-up"></i> Forward
-        </button>
-        
-        <button class="btn btn-primary" onclick="move('LEFT')">
-          <i class="fas fa-arrow-left"></i> Left
-        </button>
-        
-        <button class="btn btn-danger" onclick="move('STOP')">
-          <i class="fas fa-stop"></i> STOP
-        </button>
-        
-        <button class="btn btn-primary" onclick="move('RIGHT')">
-          <i class="fas fa-arrow-right"></i> Right
-        </button>
-        
-        <button class="btn btn-primary" onclick="move('BACKWARD')">
-          <i class="fas fa-arrow-down"></i> Backward
-        </button>
-        
-        <button class="btn btn-gray" onclick="move('AUTO')">
-          <i class="fas fa-robot"></i> Auto Mode
-        </button>
-      </div>
+        Vehicle Control
+      </h1>
+      <p class="subtitle">Manual control of the agricultural vehicle</p>
     </div>
     
-    <!-- Water Control Card -->
-    <div class="card">
-      <div class="card-title">
-        <i class="fas fa-tint"></i>
-        <h3>Water Control System</h3>
-      </div>
-      <p>Manage irrigation based on soil moisture levels</p>
+    <!-- Control Grid -->
+    <div class="control-grid">
+      <!-- Forward Button -->
+      <button class="control-btn direction-btn" id="forward-btn">
+        <i class="fas fa-arrow-up"></i>
+        <span class="btn-label">Forward</span>
+      </button>
       
-      <div class="control-row">
-        <button class="btn btn-blue" onclick="waterMode('AUTO')">
-          <i class="fas fa-cogs"></i> Auto Mode
-        </button>
-        <button class="btn btn-gray" onclick="waterMode('MANUAL')">
-          <i class="fas fa-hand-paper"></i> Manual Mode
-        </button>
-      </div>
+      <!-- Empty cell for grid alignment -->
+      <div></div>
       
-      <div class="control-row">
-        <button class="btn btn-primary" onclick="water('ON')">
-          <i class="fas fa-faucet"></i> Water ON
-        </button>
-        <button class="btn btn-danger" onclick="water('OFF')">
-          <i class="fas fa-faucet-drip"></i> Water OFF
-        </button>
-      </div>
-    </div>
-    
-    <!-- Seed Sprayer Card -->
-    <div class="card">
-      <div class="card-title">
-        <i class="fas fa-seedling"></i>
-        <h3>Seed Sprayer System</h3>
-      </div>
-      <p>Manual control for precision seeding</p>
+      <!-- Left Button -->
+      <button class="control-btn direction-btn" id="left-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span class="btn-label">Left</span>
+      </button>
       
-      <div class="control-row">
-        <button class="btn btn-primary btn-large" onclick="seed('ON')">
-          <i class="fas fa-play"></i> Start Seeding
+      <!-- Stop Button (centered) -->
+      <div class="center-cell">
+        <button class="stop-btn" id="stop-btn">
+          <i class="fas fa-stop"></i>
+          <span class="btn-label">STOP</span>
         </button>
-        <button class="btn btn-danger btn-large" onclick="seed('OFF')">
-          <i class="fas fa-stop"></i> Stop Seeding
-        </button>
-      </div>
-    </div>
-    
-    <!-- Live Sensor Data -->
-    <div class="card">
-      <div class="card-title">
-        <i class="fas fa-chart-line"></i>
-        <h3>Live Sensor Data</h3>
-      </div>
-      <p>Real-time farm monitoring metrics</p>
-      
-      <div class="sensor-grid">
-        <div class="sensor-box">
-          <h4><i class="fas fa-water"></i> Soil Moisture</h4>
-          <div class="sensor-value" id="soil">--</div>
-          <div class="sensor-unit">Percentage</div>
-        </div>
-        
-        <div class="sensor-box">
-          <h4><i class="fas fa-ruler"></i> Obstacle Distance</h4>
-          <div class="sensor-value" id="distance">--</div>
-          <div class="sensor-unit">Centimeters</div>
-        </div>
-        
-        <!-- Temperature and Light Intensity sensors have been removed -->
-      </div>
-    </div>
-    
-    <!-- ML Prediction Card -->
-    <div class="card prediction-card">
-      <div class="card-title">
-        <i class="fas fa-brain"></i>
-        <h3>ML-Based Crop Prediction</h3>
       </div>
       
-      <div class="prediction-content">
-        <p class="prediction-label">Based on current soil & environmental conditions</p>
-        <div class="prediction-value" id="prediction-result">87%</div>
-        <p class="prediction-label">Optimal Yield Prediction for This Season</p>
-        <div class="prediction-footer">
-          <p><i class="fas fa-info-circle"></i> Prediction updates every hour based on sensor data</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Data Logger Section -->
-  <div class="data-logger">
-    <div class="logger-header">
-      <div class="card-title">
-        <i class="fas fa-database"></i>
-        <h3>Data Logger</h3>
-      </div>
-      <button class="btn btn-blue" onclick="refreshLogs()">
-        <i class="fas fa-sync-alt"></i> Refresh Logs
+      <!-- Right Button -->
+      <button class="control-btn direction-btn" id="right-btn">
+        <i class="fas fa-arrow-right"></i>
+        <span class="btn-label">Right</span>
+      </button>
+      
+      <!-- Empty cell for grid alignment -->
+      <div></div>
+      
+      <!-- Backward Button -->
+      <button class="control-btn direction-btn" id="backward-btn">
+        <i class="fas fa-arrow-down"></i>
+        <span class="btn-label">Backward</span>
       </button>
     </div>
     
-    <table class="log-table">
-      <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>Operation</th>
-          <th>Value</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="log-entries">
-        <!-- Log entries will be inserted here by JavaScript -->
-      </tbody>
-    </table>
+    <!-- Auto Mode Button -->
+    <button class="control-btn auto-btn" id="auto-btn">
+      <i class="fas fa-robot"></i>
+      <span class="btn-label">Auto Mode</span>
+    </button>
+    
+    <!-- Status Indicator -->
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <div class="status-text" id="status-text">System Ready • Press any control button</div>
+    </div>
+    
+    <!-- Compact Info Section -->
+    <div class="info-section">
+      <p>Use arrow keys or WASD for keyboard controls</p>
+      <p>Press SPACE for emergency stop</p>
+    </div>
   </div>
-  
-  <footer>
-    <p>Smart Agri Vehicle System &copy; 2023 | AI-Powered Precision Agriculture</p>
-    <p>Live data updates every 3 seconds | Last updated: <span id="update-time">--:--:--</span></p>
-  </footer>
 </div>
 
-<!-- Firebase Script -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+<script>
+// Get all control buttons
+const forwardBtn = document.getElementById('forward-btn');
+const leftBtn = document.getElementById('left-btn');
+const rightBtn = document.getElementById('right-btn');
+const backwardBtn = document.getElementById('backward-btn');
+const stopBtn = document.getElementById('stop-btn');
+const autoBtn = document.getElementById('auto-btn');
+const statusText = document.getElementById('status-text');
 
-/* ===== FIREBASE CONFIG ===== */
-const firebaseConfig = {
-  apiKey: "AIzaSyB5CnZ3Eg5TLWN6YZpuQVl7fyDm2Vo4M00",
-  authDomain: "aaa-agri.firebaseapp.com",
-  databaseURL: "https://aaa-agri-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "aaa-agri"
-};
-
-/* ===== INIT ===== */
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-/* ===== CONTROL FUNCTIONS ===== */
-window.move = (cmd) => {
-  set(ref(db, "control/move"), cmd);
-  addLogEntry("Vehicle Control", cmd);
-};
-
-window.waterMode = (mode) => {
-  set(ref(db, "control/waterMode"), mode);
-  addLogEntry("Water Mode", mode);
-};
-
-window.water = (state) => {
-  set(ref(db, "control/water"), state);
-  addLogEntry("Water System", state);
-};
-
-window.seed = (state) => {
-  set(ref(db, "control/seed"), state);
-  addLogEntry("Seed Sprayer", state);
-};
-
-/* ===== DATA LOGGER ===== */
-const logEntries = [];
-const maxLogEntries = 10;
-
-function addLogEntry(operation, value) {
-  const timestamp = new Date().toLocaleTimeString();
-  const status = value === 'STOP' || value === 'OFF' ? 'inactive' : 'active';
+// Function to simulate button press animation and update status
+function handleControl(command) {
+  // Add press animation
+  event.target.classList.add('button-press');
+  setTimeout(() => {
+    event.target.classList.remove('button-press');
+  }, 150);
   
-  logEntries.unshift({ timestamp, operation, value, status });
+  // Update status text
+  const now = new Date();
+  const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  statusText.textContent = `Command: ${command} • ${timeString}`;
   
-  if (logEntries.length > maxLogEntries) {
-    logEntries.pop();
-  }
+  // Change status dot color to indicate activity
+  const statusDot = document.querySelector('.status-dot');
+  statusDot.style.background = '#ff9800';
   
-  updateLogTable();
+  // Return to green after 1.5 seconds
+  setTimeout(() => {
+    statusDot.style.background = '#4caf50';
+  }, 1500);
+  
+  // Log the command
+  console.log(`Vehicle control: ${command}`);
+  
+  // In a real implementation, send to Firebase:
+  // set(ref(db, "control/move"), command);
 }
 
-function updateLogTable() {
-  const logTable = document.getElementById('log-entries');
-  logTable.innerHTML = '';
-  
-  logEntries.forEach(entry => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${entry.timestamp}</td>
-      <td>${entry.operation}</td>
-      <td><strong>${entry.value}</strong></td>
-      <td>
-        <span class="status-indicator ${entry.status === 'active' ? 'status-active' : 'status-inactive'}"></span>
-        ${entry.status}
-      </td>
-    `;
-    logTable.appendChild(row);
-  });
-}
+// Add event listeners to buttons
+forwardBtn.addEventListener('click', () => handleControl('FORWARD'));
+leftBtn.addEventListener('click', () => handleControl('LEFT'));
+rightBtn.addEventListener('click', () => handleControl('RIGHT'));
+backwardBtn.addEventListener('click', () => handleControl('BACKWARD'));
+stopBtn.addEventListener('click', () => {
+  handleControl('STOP');
+  // Make stop button more noticeable
+  stopBtn.style.transform = 'scale(1.05)';
+  setTimeout(() => {
+    stopBtn.style.transform = 'scale(1)';
+  }, 150);
+});
+autoBtn.addEventListener('click', () => handleControl('AUTO MODE'));
 
-window.refreshLogs = () => {
-  addLogEntry("Data Logger", "Manual Refresh");
-};
-
-/* ===== LIVE SENSOR UPDATE ===== */
-onValue(ref(db, "sensors"), (snapshot) => {
-  if (snapshot.exists()) {
-    const data = snapshot.val();
-    
-    // Update sensor displays
-    document.getElementById("soil").innerText = data.soil_percent || "--";
-    document.getElementById("distance").innerText = data.distance || "--";
-    
-    // Update last updated time
-    const now = new Date();
-    document.getElementById("update-time").innerText = now.toLocaleTimeString();
+// Keyboard controls
+document.addEventListener('keydown', (event) => {
+  switch(event.key.toLowerCase()) {
+    case 'arrowup':
+    case 'w':
+      forwardBtn.click();
+      event.preventDefault();
+      break;
+    case 'arrowleft':
+    case 'a':
+      leftBtn.click();
+      event.preventDefault();
+      break;
+    case 'arrowright':
+    case 'd':
+      rightBtn.click();
+      event.preventDefault();
+      break;
+    case 'arrowdown':
+    case 's':
+      backwardBtn.click();
+      event.preventDefault();
+      break;
+    case ' ':
+    case 'x':
+      stopBtn.click();
+      event.preventDefault();
+      break;
+    case 'enter':
+    case 'm':
+      autoBtn.click();
+      event.preventDefault();
+      break;
   }
 });
 
-/* ===== ML PREDICTION SIMULATION ===== */
-function updatePrediction(sensorData) {
-  const soil = parseInt(sensorData.soil_percent) || 50;
-  const distance = parseInt(sensorData.distance) || 100;
-  
-  // Simple algorithm to simulate ML prediction
-  let prediction = 70; // Base prediction
-  
-  // Adjust based on soil moisture (optimal: 40-70%)
-  if (soil >= 40 && soil <= 70) {
-    prediction += 15;
-  } else if (soil >= 30 && soil < 40) {
-    prediction += 5;
-  } else if (soil > 70 && soil <= 85) {
-    prediction -= 5;
-  } else {
-    prediction -= 15;
-  }
-  
-  // Adjust based on obstacle distance (clear path: >50cm)
-  if (distance > 50) {
-    prediction += 5;
-  } else if (distance > 20) {
-    prediction -= 5;
-  } else {
-    prediction -= 10;
-  }
-  
-  // Ensure prediction is within 0-100%
-  prediction = Math.max(0, Math.min(100, prediction));
-  
-  // Update prediction display
-  document.getElementById("prediction-result").innerText = `${prediction}%`;
-  
-  // Add log entry for prediction update (once every few updates)
-  if (Math.random() > 0.7) {
-    addLogEntry("ML Prediction", `${prediction}% yield forecast`);
-  }
-}
+// Initialize status
+statusText.textContent = 'System Ready • Press any control button';
 
-/* ===== INITIALIZE WITH SAMPLE LOGS ===== */
-// Add some initial log entries
-setTimeout(() => {
-  addLogEntry("System", "Initialized");
-  addLogEntry("ML Model", "Loaded and active");
-  addLogEntry("Sensors", "All active");
-  addLogEntry("Vehicle", "Ready for operation");
-  updatePrediction({soil_percent: 65, distance: 120});
-}, 500);
+// Add active state for buttons on touch devices
+document.querySelectorAll('.control-btn').forEach(button => {
+  button.addEventListener('touchstart', function() {
+    this.style.opacity = '0.8';
+  });
+  
+  button.addEventListener('touchend', function() {
+    this.style.opacity = '1';
+  });
+});
 </script>
 </body>
 </html>
