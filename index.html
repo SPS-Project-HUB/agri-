@@ -1,59 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Smart Agri Vehicle</title>
+
 <style>
-body{text-align:center;font-family:Arial;background:#e8f5e9}
-button{width:140px;height:45px;margin:5px;font-size:16px}
+body{
+  font-family: Arial, sans-serif;
+  background:#e8f5e9;
+  text-align:center;
+  margin:0;
+  padding:10px;
+}
+h2{color:#2e7d32}
+.card{
+  background:#ffffff;
+  padding:15px;
+  margin:10px auto;
+  max-width:400px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+button{
+  width:140px;
+  height:45px;
+  margin:5px;
+  font-size:16px;
+  border:none;
+  border-radius:8px;
+  background:#4caf50;
+  color:white;
+}
+button.red{background:#e53935}
+button.blue{background:#1e88e5}
+button.gray{background:#757575}
+p{font-size:18px}
 </style>
 </head>
+
 <body>
 
-<h2>SMART AGRI VEHICLE</h2>
+<h2>🌱 SMART AGRI VEHICLE 🌱</h2>
 
-<h3>Movement</h3>
+<!-- VEHICLE CONTROL -->
+<div class="card">
+<h3>🚜 Vehicle Control</h3>
 <button onclick="move('FORWARD')">Forward</button><br>
 <button onclick="move('LEFT')">Left</button>
-<button onclick="move('STOP')">Stop</button>
+<button class="red" onclick="move('STOP')">STOP</button>
 <button onclick="move('RIGHT')">Right</button><br>
 <button onclick="move('BACKWARD')">Backward</button>
+</div>
 
-<h3>Water</h3>
-<button onclick="waterMode('AUTO')">AUTO</button>
-<button onclick="waterMode('MANUAL')">MANUAL</button><br>
+<!-- WATER CONTROL -->
+<div class="card">
+<h3>💧 Water Control</h3>
+<button class="blue" onclick="waterMode('AUTO')">AUTO</button>
+<button class="gray" onclick="waterMode('MANUAL')">MANUAL</button><br>
 <button onclick="water('ON')">Water ON</button>
-<button onclick="water('OFF')">Water OFF</button>
+<button class="red" onclick="water('OFF')">Water OFF</button>
+</div>
 
-<h3>Seed Sprayer</h3>
-<button onclick="seedMode('AUTO')">AUTO</button>
-<button onclick="seedMode('MANUAL')">MANUAL</button><br>
+<!-- SEED SPRAYER (MANUAL ONLY) -->
+<div class="card">
+<h3>🌾 Seed Sprayer (Manual)</h3>
 <button onclick="seed('ON')">Seed ON</button>
-<button onclick="seed('OFF')">Seed OFF</button>
+<button class="red" onclick="seed('OFF')">Seed OFF</button>
+</div>
 
-<h3>Sensors</h3>
-<p>Soil: <span id="soil">--</span>%</p>
-<p>Distance: <span id="dist">--</span> cm</p>
+<!-- SENSOR DATA -->
+<div class="card">
+<h3>📊 Live Sensor Data</h3>
+<p>Soil Moisture: <b><span id="soil">--</span> %</b></p>
+<p>Obstacle Distance: <b><span id="distance">--</span> cm</b></p>
+</div>
 
+<!-- FIREBASE SCRIPT -->
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import {getDatabase,ref,set,onValue} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
 
-const app = initializeApp({
+/* ===== FIREBASE CONFIG ===== */
+const firebaseConfig = {
   apiKey: "AIzaSyB5CnZ3Eg5TLWN6YZpuQVl7fyDm2Vo4M00",
-  databaseURL: "https://aaa-agri-default-rtdb.asia-southeast1.firebasedatabase.app"
-});
+  authDomain: "aaa-agri.firebaseapp.com",
+  databaseURL: "https://aaa-agri-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "aaa-agri"
+};
+
+/* ===== INIT ===== */
+const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-window.move = v => set(ref(db,"control/move"),v);
-window.water = v => set(ref(db,"control/water"),v);
-window.waterMode = v => set(ref(db,"control/waterMode"),v);
-window.seed = v => set(ref(db,"control/seed"),v);
-window.seedMode = v => set(ref(db,"control/seedMode"),v);
+/* ===== CONTROL FUNCTIONS ===== */
+window.move = (cmd)=>{
+  set(ref(db,"control/move"),cmd);
+};
 
-onValue(ref(db,"sensors"), s=>{
-  soil.innerText = s.val().soil_percent;
-  dist.innerText = s.val().distance;
+window.waterMode = (mode)=>{
+  set(ref(db,"control/waterMode"),mode);
+};
+
+window.water = (state)=>{
+  set(ref(db,"control/water"),state);
+};
+
+window.seed = (state)=>{
+  set(ref(db,"control/seed"),state);
+};
+
+/* ===== LIVE SENSOR UPDATE ===== */
+onValue(ref(db,"sensors"), (snapshot)=>{
+  if(snapshot.exists()){
+    const data = snapshot.val();
+    document.getElementById("soil").innerText = data.soil_percent;
+    document.getElementById("distance").innerText = data.distance;
+  }
 });
 </script>
 
